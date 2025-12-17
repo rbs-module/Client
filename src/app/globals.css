@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================scrollbar for light mode================================ */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 100, 0.3);
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 100, 100, 0.5);
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.5);
+  border-radius: 1px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.8);
+  border-radius: 1px;
+}
+
+/* .ag-root-wrapper-body {
+  height: auto !important;
+} */
+
+.ag-header-cell-label {
+  justify-content: center;
+}
+
+.bg_image {
+  background: linear-gradient(
+      50deg,
+      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.5)
+    ),
+    url("../assets/img/w-bg.jpg");
+  background-size: contain;
+}
+
+html.dark .bg_image {
+  background: linear-gradient(50deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.2)),
+    url("../assets/img/w-bg-dark.jpeg");
+  background-size: contain;
+}
+
+
+@media print {
+  @page {
+    size: A4 ;
+  }
+}
