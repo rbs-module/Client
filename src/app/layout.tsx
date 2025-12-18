@@ -7,6 +7,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "simplebar-react/dist/simplebar.min.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 import env from "dotenv";
 env.config();
 
@@ -37,6 +38,7 @@ export default function RootLayout({
       >
         {children}
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
