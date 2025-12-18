@@ -123,7 +123,7 @@ export const getPayslipPdfBOdy = (payslip: PayslipData, i: number) => {
       alignment: "center",
     },
     {
-      text: numberWithCommas(payrollConfig.getHourlyOTRate(payslip.basic), 0),
+      text: numberWithCommas(payrollConfig.getHourlyOTRate(payslip.basic), 2),
       margin: [0, 15, 0, 0],
       alignment: "center",
     },
@@ -153,6 +153,7 @@ export const getPayslipPdfBOdy = (payslip: PayslipData, i: number) => {
       text: numberWithCommas(payslip.net_payable, 0) || "",
       bold: true,
       alignment: "right",
+      fontSize: 11,
       margin: [0, 15, 0, 0],
     },
     // Signature cell: give empty text but enough minHeight via header heights below

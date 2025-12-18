@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import RefreshLoading from "@/components/Loading/RefreshLoading";
 import { header1, header2 } from "./tableHeader";
 import { useGetPayslipsQuery } from "@/store/payroll";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import { useEffect, useState } from "react";
-import ToolBarStyled from "@/components/styled/ToolBar";
-import { MonthPicker } from "@/components/MonthPicker";
-import IconButtonStyled from "@/components/styled/IconButton";
-import { Icons } from "@/components/icons";
-import { RefreshButton } from "@/components/buttons/RefreshButton";
-import Link from "next/link";
 import { PaginationBar } from "@/components/pagination/paginationBar";
 import { getPayslipPdfBOdy } from "./body";
 import { getPayslipPdfTotalRow } from "./totalRow";
@@ -19,7 +12,8 @@ import { payslipFooter } from "./footer";
 import { usePayrollStore } from "@/store/payroll/hooks";
 import { NoData } from "@/components/no-data/NoData";
 import { useFetchMyOrganizationQuery } from "@/services/organization";
-import { format } from "date-fns";
+import { addMonths, format } from "date-fns";
+import PayslipNav from "../table/Nav";
 
 export default function PayslipsPDF() {
   const tableBody: any[] = [];
@@ -33,7 +27,7 @@ export default function PayslipsPDF() {
   const { setFindPayslipQuery: handleQueryChange, findPayslipQuery: query } =
     usePayrollStore();
 
-  const { data, refetch, isLoading, isFetching } = useGetPayslipsQuery(query);
+  const { data } = useGetPayslipsQuery(query);
 
   const { data: org } = useFetchMyOrganizationQuery();
 
@@ -107,7 +101,7 @@ export default function PayslipsPDF() {
             fontSize: 10,
           },
           {
-            text: `Worker Salary Advance, ${format(new Date(String(query.month)), "MMM-yyyy")}.`,
+            text: `Salary, Advance, OT, ${format(new Date(String(query.month)), "MMM-yyyy")}.`,
             alignment: "center",
             fontSize: 11,
             margin: [0, 2, 0, 0],
@@ -120,7 +114,11 @@ export default function PayslipsPDF() {
                 bold: true,
                 fontSize: 12,
               },
-              { text: "Date : 7-NOV-25", alignment: "right", fontSize: 12 },
+              {
+                text: `Date : 7-${format(addMonths(new Date(String(query.month)), 1), "MMM-yy")}`,
+                alignment: "right",
+                fontSize: 12,
+              },
             ],
             margin: [0, 10, 0, 0],
           },
@@ -191,17 +189,7 @@ export default function PayslipsPDF() {
       height={Number(data?.payslips.length) * 25 + 80}
       minWidth={"1000px"}
     >
-      <RefreshLoading isLoading={isFetching || isLoading} />
-      <ToolBarStyled sx={{ my: 1 }}>
-        <Typography variant="h6">Payslips</Typography>
-        <Stack direction={"row"} spacing={2} alignItems={"center"}>
-          <MonthPicker value={query.month} onChange={handleQueryChange} />
-          <IconButtonStyled component={Link} href="/v1/payroll/payslips/create">
-            <Icons.Add />
-          </IconButtonStyled>
-          <RefreshButton onClick={refetch} />
-        </Stack>
-      </ToolBarStyled>
+      <PayslipNav />
       <div style={{ height: "100%" }}>
         {pdfUrl ? (
           <iframe

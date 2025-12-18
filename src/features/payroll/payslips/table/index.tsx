@@ -1,21 +1,15 @@
 "use client";
-import { Icons } from "@/components/icons";
-import { MonthPicker } from "@/components/MonthPicker";
 import { PaginationBar } from "@/components/pagination/paginationBar";
-import IconButtonStyled from "@/components/styled/IconButton";
-import ToolBarStyled from "@/components/styled/ToolBar";
 import { useGetPayslipsQuery, useUpdatePayslipMutation } from "@/store/payroll";
 import { getGridTheme } from "@/theme/ag-grid/grid-theme";
 import { PayslipData } from "@/types/payroll";
-import { Box, Stack, Typography, useTheme } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import { AgGridReact } from "ag-grid-react";
-import Link from "next/link";
 import { PayslipDefaultColDef, PayslipsColDef } from "./colDef";
-import { RefreshButton } from "@/components/buttons/RefreshButton";
-import RefreshLoading from "@/components/Loading/RefreshLoading";
 import toast from "react-hot-toast";
 import { CellEditingStoppedEvent } from "ag-grid-community";
 import { usePayrollStore } from "@/store/payroll/hooks";
+import PayslipNav from "./Nav";
 
 function PayslipTable() {
   const { setFindPayslipQuery: handleQueryChange, findPayslipQuery: query } =
@@ -68,20 +62,7 @@ function PayslipTable() {
       height={Number(data?.payslips.length) * 25 + 80}
       minWidth={"1000px"}
     >
-      <RefreshLoading isLoading={isFetching || isLoading} />
-      <ToolBarStyled sx={{ my: 1 }}>
-        <Typography variant="h6">Payslips</Typography>
-        <Stack direction={"row"} spacing={2} alignItems={"center"}>
-          <MonthPicker value={query.month} onChange={handleQueryChange} />
-          <IconButtonStyled component={Link} href="/v1/payroll/payslips/create">
-            <Icons.Add />
-          </IconButtonStyled>
-          <RefreshButton onClick={refetch} />
-          <IconButtonStyled component={Link} href="payslips/print">
-            <Icons.PrintIcon />
-          </IconButtonStyled>
-        </Stack>
-      </ToolBarStyled>
+      <PayslipNav />
 
       <AgGridReact
         containerStyle={{ minWidth: "1000px" }}

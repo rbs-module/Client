@@ -40,7 +40,7 @@ export interface EmployeeInfo {
 }
 
 export type FindPayslipQuery = Partial<
-  DefaultQueryParamsDTOType & { month: string }
+  DefaultQueryParamsDTOType & { month: string; department: string }
 >;
 export interface PayslipData {
   _id: string;
@@ -90,4 +90,10 @@ export type EmployeeHistoryType = {
     | undefined;
   createdAt?: Date | undefined;
   referenceId?: string | undefined;
+};
+
+export type Department = {
+  _id: string;
+  name: string;
+  organization_id: string;
 };

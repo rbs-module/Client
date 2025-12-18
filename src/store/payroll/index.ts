@@ -5,6 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { FindAccountsQueryType } from "@/zod-schemas/accounts/find-accounts-schema";
 import { prepareHeaders } from "@/services/helpers/prepareHeaders";
 import {
+  Department,
   Employee,
   EmployeeHistoryType,
   FindPayslipQuery,
@@ -104,6 +105,14 @@ export const payrollApi = createApi({
         body,
       }),
     }),
+    // Department
+    findDepartments: builder.query<
+      { departments: Department[]; pagination: Pagination },
+      Partial<DefaultQueryParamsDTOType>
+    >({
+      query: (query) => `/departments?${objToQueryString(query)}`,
+      keepUnusedDataFor: 300,
+    }),
   }),
 });
 
@@ -121,4 +130,6 @@ export const {
   useUpdatePayslipMutation,
   useLazyGetEmployeeQuery,
   useGetEmployeeHistoryQuery,
+
+  useFindDepartmentsQuery,
 } = payrollApi;
